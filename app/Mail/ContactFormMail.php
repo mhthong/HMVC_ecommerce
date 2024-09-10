@@ -1,0 +1,69 @@
+<?php 
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+use Inertia\Inertia;
+
+class ContactFormMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $details;
+
+    /**
+     * Create a new message instance.
+     *
+     * @param array $details
+     * @return void
+     */
+    public function __construct($details)
+    {
+        $this->details = $details;
+    }
+
+    /**
+     * Get the message envelope.
+     *
+     * @return \Illuminate\Mail\Mailables\Envelope
+     */
+    public function envelope()
+    {
+        return new Envelope(
+            subject: 'Contact Form Submission',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     *
+     * @return \Illuminate\Mail\Mailables\Content
+     */
+    public function content()
+    {
+        if (isset($this->details['return']) && $this->details['return'] === 'Test') {
+            return new Content(
+                view: 'emails.test', // Use a different view for test
+            );
+        }
+
+        return new Content(
+            view: 'emails.contact', // Default view
+        );
+
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array
+     */
+    public function attachments()
+    {
+        return [];
+    }
+}

@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed, nextTick ,defineProps } from "vue";
 
 import axios from "axios";
 import { useForm } from "@inertiajs/vue3";

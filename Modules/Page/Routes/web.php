@@ -16,7 +16,7 @@ use Modules\Page\Http\Controllers\PageController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::middleware('admin')->group(function () {
+    Route::middleware('admin')->prefix('dashboard')->group(function () {
 
         Route::prefix('page-manager')->group(function () {
             Route::get('/', [PageController::class, 'index'])->name('page_manager.index');            

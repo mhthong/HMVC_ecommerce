@@ -51,13 +51,12 @@ class AuthenticatedSessionController extends Controller
         $tokenResult = $user->createToken($user->name . '-token');
 
         // Định nghĩa guard nếu cần thiết
-        $guard = ($user->role === 'admin') ? 'admin' : 'web';
+        $guard = $user->getGuard();
 
-
-            // Store token and other data in session if needed
-            $request->session()->put('token', $tokenResult->accessToken);
-            $request->session()->put('token_id', $tokenResult->token->id);
-            $request->session()->put('$guard ', $guard);
+        // Store token and other data in session if needed
+        $request->session()->put('token', $tokenResult->accessToken);
+        $request->session()->put('token_id', $tokenResult->token->id);
+        $request->session()->put('$guard ', $guard);
 
 
 
@@ -66,8 +65,8 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    
-    
+
+
     /**
      * Destroy an authenticated session.
      */

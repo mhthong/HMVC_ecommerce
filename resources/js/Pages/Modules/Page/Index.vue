@@ -52,15 +52,15 @@ export default {
                 { title: "ID", key: "id" },
                 { title: "Name", key: "name" },
                 { title: "Slug", key: "slug" },
-                { title: "Stastus", key: "status" },
+                { title: "Status", key: "status" },
                 { title: "Template", key: "template" },
                 { title: "Description", key: "description" },
                 { title: "Action", key: "created_at", sortable: false }, // Thêm cột Action
             ], // Initialize with an empty array or appropriate default value
 
             routes: {
-                    edit: '/page-manager/update/:id',
-                    destroy: '/page-manager/delete/:id'
+                    edit: '/dashboard/page-manager/update/:id',
+                    destroy: '/dashboard/page-manager/delete/:id'
                 },
         };
     },

@@ -26,8 +26,10 @@
         "ckeditor5": "^43.0.0",
         "ckeditor5-premium-features": "^43.0.0",
         "diacritics": "^1.3.0",
+        "qrcode.vue": "^3.5.0",
         "vite-plugin-vuetify": "^2.0.4",
         "vue": "^3.4.31",
+        "vue-draggable-plus": "^0.5.3",
         "vue-router": "^4.4.3",
         "vue3-toastify": "^0.2.2",
         "vuetify": "^3.7.0-beta.1"

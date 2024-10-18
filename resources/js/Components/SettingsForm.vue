@@ -54,7 +54,6 @@
                             </v-row>
                             <input
                                 :id="field.key"
-                                v-model="field.value"
                                 class="form-control hidden"
                                 type="text"
                                 name="filepath"
@@ -148,15 +147,23 @@ const submitSettings = () => {
     const fields = props.settings.fields;
 
     // Prepare the payload with all field values
-    const payload = Object.values(fields).reduce((acc, field) => {
-        if (field.includes === "image") {
-            // Update with the value from the input element
-            const inputElement = document.getElementById(field.key);
-            acc[field.key] = inputElement ? inputElement.value : "";
-        } else {
-            // Use the value from the Vue model
-            acc[field.key] = field.value;
+    const payload = Object.entries(fields).reduce((acc, [key, field]) => {
+        acc[key] =
+            field.includes === "image"
+                ? document.getElementById(field.key)?.value || field.value
+                : field.value;
+
+        if (field.key === "slider") {
+            const slider = props.slider.find(
+                (slider) => slider.name === Form.fields.slider_id.value
+            );
+            if (slider) {
+                acc[key] = slider.id;
+            } else {
+                acc[key] = null;
+            }
         }
+
         return acc;
     }, {});
 

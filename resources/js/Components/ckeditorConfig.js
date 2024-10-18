@@ -142,6 +142,7 @@ const editorConfig = {
             },
         ],
     },
+
 };
 
 export { ClassicEditor as editor, editorConfig };

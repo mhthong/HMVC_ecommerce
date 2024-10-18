@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use App\Models\Page;
 use App\Models\Slug;
+use App\Models\Slider;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Log;
 use Inertia\Response; // Import the Response class
+use Illuminate\Validation\Rule;
+
 
 
 
@@ -38,7 +41,12 @@ class PageController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Modules/Page/Create');
+        $slider = Slider::select('id','name')->get();
+
+        return Inertia::render('Modules/Page/Create',
+    [
+        'slider' => $slider,
+    ]);
     }
 
     /**
@@ -54,12 +62,13 @@ class PageController extends Controller
             // Validate incoming request
             $request->validate([
                 'name' => 'required|string|max:255|unique:pages',
-                'slug' => 'required|unique:pages', // Assuming 'pages' is the table name
+                'slug' => 'required|string|unique:slugs,key,',
                 'content' => 'required',
                 'status' => 'required|string',
                 'template' => 'nullable|string',
                 'description' => 'nullable|string',
-                'image' => 'nullable|string'
+                'image' => 'nullable|string',
+                'slider_id'=>'required',
             ]);
 
             // Create a new page with the authenticated user's ID
@@ -71,7 +80,8 @@ class PageController extends Controller
                 'image' => $request->input('image'),
                 'template' => $request->input('template'),
                 'description' => $request->input('description'),
-                'status' => $request->input('status')
+                'status' => $request->input('status'),
+                'slider_id' => $request->input('slider_id')
             ]);
 
             // Update or create a new slug
@@ -106,9 +116,10 @@ class PageController extends Controller
      */
     public function edit(Page $page)
     {
-
+        $slider = Slider::select('id','name')->get();
         return Inertia::render('Modules/Page/Edit', [
             'page' => $page,
+            'slider' => $slider,
         ]);
     }
 
@@ -121,18 +132,17 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-
-
         try {
             // Validate incoming request
             $request->validate([
-                'name' => 'required|string|max:255',
-                'slug' => 'required',
+                'name' => 'required|string|max:255|unique:pages,name,' . $page->id,
+                'slug' => 'required|string|unique:slugs,key,' . $page->id . ',reference_id',
                 'content' => 'required',
                 'status' => 'required|string',
                 'template' => 'nullable|string',
                 'description' => 'nullable|string',
-                'image' => 'nullable|string'
+                'image' => 'nullable|string',
+                'slider_id'=>'required',
             ]);
 
             $page->update($request->all());
@@ -149,8 +159,6 @@ class PageController extends Controller
                     'key' => $request->input('slug')
                 ]
             );
-
-
 
             return response()->json([
                 'message' => 'Page edit successfully!',

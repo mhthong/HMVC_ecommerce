@@ -1,12 +1,12 @@
 <template>
-    <Head title="Page Manager" />
+    <Head title="Post Manager" />
 
     <AuthenticatedLayout>
         <template #header>
             <h2
                 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
             >
-                Page Manager
+                Post Manager
             </h2>
         </template>
 
@@ -15,14 +15,14 @@
                 <div>
                     <v-container>
                         <v-btn class="bg-primary">
-                        <Link :href="route('page_manager.create')">
+                        <Link :href="route('post_manager.create')">
                             Add New
                         </Link>
                     </v-btn>
                     </v-container>
                     <DataTable
                         :headers="headers"
-                        :items="pages"
+                        :items="datas"
                         :routes="routes"
                     />
                 </div>
@@ -44,7 +44,7 @@ export default {
         Link,
     },
     props: {
-        pages: Array, // Ensure you declare pages as a prop to receive it from the controller
+        datas: Array, // Ensure you declare pages as a prop to receive it from the controller
     },
     data() {
         return {
@@ -52,15 +52,14 @@ export default {
                 { title: "ID", key: "id" },
                 { title: "Name", key: "name" },
                 { title: "Slug", key: "slug" },
-                { title: "Stastus", key: "status" },
-                { title: "Template", key: "template" },
+                { title: "Status", key: "status" },
                 { title: "Description", key: "description" },
                 { title: "Action", key: "created_at", sortable: false }, // Thêm cột Action
             ], // Initialize with an empty array or appropriate default value
 
             routes: {
-                    edit: '/page-manager/update/:id',
-                    destroy: '/page-manager/delete/:id'
+                    edit: '/dashboard/post-manager/update/:id',
+                    destroy: '/dashboard/post-manager/delete/:id'
                 },
         };
     },
@@ -69,7 +68,6 @@ export default {
     },
     mounted() {
         // Fetch data here if needed, e.g. from an API
-        console.log(this.pages);
     },
 };
 </script>

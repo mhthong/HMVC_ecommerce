@@ -45,9 +45,24 @@ class User extends Authenticatable
     ];
 
 
+        /**
+     * Get the guard name based on the user's role.
+     *
+     * @return string
+     */
+    public function getGuard(): string
+    {
+        return match ($this->role) {
+            'owner' => 'owner',
+            'admin' => 'admin',
+            'customer' => 'customer',
+            default => 'web',
+        };
+    }
+    
     public function isAdmin()
-{
-    return $this->role === 'admin'; // Điều chỉnh điều kiện này tùy thuộc vào cách bạn lưu trữ vai trò của người dùng
-}
+        {
+            return $this->role === 'admin'; // Điều chỉnh điều kiện này tùy thuộc vào cách bạn lưu trữ vai trò của người dùng
+        }
 
 }

@@ -28,8 +28,20 @@ class Page extends Model
        'description',
        'is_featured',
        'status',
-       'slug'    
+       'slug',
+       'slider_id'    
    ];
 
+   public function posts()
+   {
+       return $this->belongsToMany(Post::class, 'page_post');
+   }
+
+   public function slider()
+   {
+       return $this->belongsTo(Slider::class);
+   }
+
+   
 					
 }

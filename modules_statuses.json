@@ -1,4 +1,7 @@
 {
     "Post": true,
-    "Page": true
+    "Page": true,
+    "Block": true,
+    "Slider": true,
+    "Product": true
 }

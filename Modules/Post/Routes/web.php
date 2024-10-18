@@ -20,11 +20,21 @@ use Illuminate\Auth\Middleware\EnsureEmailIsVerified; // For 'verified' middlewa
 |7kỵgh `s
 */ 
 
-Route::prefix('post')->middleware(['admin', 'verified'])->group(function() {
-    Route::get('/', [PostController::class, 'index'])->name('post');    
-    
-    Route::get('/test', function () { 
-        return Inertia::render('Home/Test');
-    })->name('test');
 
-}); 
+
+Route::middleware('auth')->group(function () {
+
+
+    Route::middleware('admin')->prefix('dashboard')->group(function () {
+
+        Route::prefix('post-manager')->group(function () {
+            Route::get('/', [PostController::class, 'index'])->name('post_manager.index');            
+            Route::get('/create', [PostController::class, 'create'])->name('post_manager.create');
+            Route::post('/create', [PostController::class, 'store'])->name('post_manager.store');       
+            Route::get('/update/{post}', [PostController::class, 'edit'])->name('post_manager.edit');
+            Route::put('/update/{post}', [PostController::class, 'update'])->name('post_manager.update');
+            Route::delete('/delete/{post}', [PostController::class, 'destroy'])->name('post_manager.destroy');
+        });
+
+    });
+});
